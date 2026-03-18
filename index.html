@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cotinga games</title>
+<meta name="description" content="Cotinga Games: estudio indie do Rio de Janeiro. Pinote: dar grau, voar por cima dos telhados e fugir da polícia pelos bairros do rio.">
+<meta property="og:title" content="cotinga games">
+<meta property="og:description" content="Pinote: dar grau, voar por cima dos telhados e fugir da polícia pelos bairros do rio. cada manobra alimenta o combo e o cerco.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cotinga.games">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cotingagames">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23cfc3b1'/><text x='4' y='23' font-size='20' font-family='Georgia'>c</text></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500&family=DM+Serif+Display&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --paper: #cfc3b1;
+    --ink: #151210;
+    --ink-mid: #3a3230;
+    --ink-light: #504840;
+    --ink-muted: #7a7068;
+    --ink-ghost: #6a6058;
+    --neon-pink-glow: rgba(255,45,85,0.15);
+    --neon-amber: rgba(255,155,40,0.08);
+    --stamp: #b82000;
+    --void: #000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  body {
+    background: var(--void);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* === atmospheric neon bleeds === */
+  .atmosphere {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .atmosphere::before {
+    content: '';
+    position: absolute;
+    top: 5%;
+    right: 2%;
+    width: 45vw;
+    height: 55vh;
+    background: radial-gradient(ellipse at center, var(--neon-pink-glow) 0%, transparent 65%);
+    animation: breathe 8s ease-in-out infinite;
+  }
+  .atmosphere::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    width: 40vw;
+    height: 50vh;
+    background: radial-gradient(ellipse at center, var(--neon-amber) 0%, transparent 60%);
+    animation: breathe 10s ease-in-out infinite 3s;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* === the card === */
+  .card {
+    background: var(--paper);
+    width: 92vw;
+    max-width: 540px;
+    padding: 40px 48px 36px;
+    position: relative;
+    z-index: 1;
+    transform: rotate(-0.7deg);
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.4),
+      0 4px 8px rgba(0,0,0,0.3),
+      0 12px 28px rgba(0,0,0,0.4),
+      0 28px 60px rgba(0,0,0,0.5);
+    animation: surface 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes surface {
+    from {
+      opacity: 0;
+      transform: rotate(-0.7deg) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(-0.7deg) translateY(0);
+    }
+  }
+
+  /* paper grain */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect x='0' y='0' width='1' height='1' fill='rgba(0,0,0,0.03)'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Crect x='2' y='3' width='1' height='1' fill='rgba(0,0,0,0.02)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* edge wear */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.06);
+    pointer-events: none;
+  }
+
+  /* === header block === */
+  .studio {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(38px, 10vw, 48px);
+    color: var(--ink);
+    letter-spacing: -1px;
+    line-height: 0.88;
+    margin-bottom: 6px;
+    position: relative;
+    animation: ink 0.8s ease both 0.3s;
+  }
+
+  .location {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 2px;
+    text-transform: lowercase;
+    margin-bottom: 24px;
+    animation: ink 0.8s ease both 0.5s;
+  }
+
+  @keyframes ink {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* === the rule === */
+  .rule {
+    height: 2px;
+    background: var(--ink);
+    margin-bottom: 24px;
+    animation: rule-draw 0.6s ease both 0.7s;
+    transform-origin: left;
+  }
+
+  @keyframes rule-draw {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* === game block === */
+  .game {
+    animation: ink 0.8s ease both 0.9s;
+  }
+
+  .game-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+
+  .game-video {
+    width: calc(100% + 96px);
+    margin-left: -48px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .game-video video {
+    width: 100%;
+    display: block;
+    filter: saturate(0.85) contrast(1.05);
+    mix-blend-mode: multiply;
+  }
+
+  .game-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    letter-spacing: 0.1px;
+    max-width: none;
+  }
+
+  .game-meta {
+    font-family: 'Space Mono', monospace;
+    margin-top: 2px;
+    margin-bottom: 12px;
+    font-size: 9.5px;
+    color: var(--ink-ghost);
+    letter-spacing: 2px;
+  }
+
+  /* === wishlist button === */
+  .wishlist {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    padding: 12px 24px;
+    margin-top: 24px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    animation: ink 0.6s ease both 1.1s;
+  }
+
+  .wishlist:hover {
+    background: var(--stamp);
+  }
+
+  /* === stamp === */
+  .stamp {
+    font-family: 'Space Mono', monospace;
+    display: inline-block;
+    border: 2px solid var(--stamp);
+    color: var(--stamp);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 10px;
+    letter-spacing: 2px;
+    transform: rotate(-3.5deg);
+    margin: 0;
+    position: relative;
+    animation: ink 0.6s ease both 1.2s;
+  }
+
+  .stamp::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      rgba(207,195,177,0.3) 30%,
+      transparent 40%,
+      rgba(207,195,177,0.2) 65%,
+      transparent 75%
+    );
+    pointer-events: none;
+  }
+
+  /* === links === */
+  .links {
+    font-family: 'Space Mono', monospace;
+    margin-top: 28px;
+    font-size: 9.5px;
+    color: var(--ink-ghost);
+    letter-spacing: 0.5px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: ink 0.8s ease both 1.4s;
+  }
+
+  .links a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .links a:hover {
+    color: var(--stamp);
+    border-bottom-color: var(--stamp);
+  }
+
+  .sep {
+    color: var(--ink-ghost);
+    opacity: 0.4;
+    user-select: none;
+    font-size: 8px;
+  }
+
+  /* === responsive === */
+  @media (max-width: 520px) {
+    .card {
+      padding: 40px 28px 36px;
+      transform: rotate(0deg);
+    }
+    @keyframes surface {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .game-title {
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="atmosphere"></div>
+
+  <div class="card">
+    <div class="studio">cotinga games</div>
+    <div class="location">rio de janeiro</div>
+
+    <div class="rule"></div>
+
+    <div class="game">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div>
+          <div class="game-title">PINOTE</div>
+          <div class="game-meta">PC / STEAM / 2026</div>
+        </div>
+        <div class="stamp">EM DESENVOLVIMENTO</div>
+      </div>
+      <div class="game-video">
+        <video autoplay muted loop playsinline src="pinote-gameplay.mp4"></video>
+      </div>
+      <div class="game-desc">
+        dar grau, voar por cima dos telhados e fugir da polícia pelos
+        bairros do rio. a cidade inteira é uma rampa se você souber
+        olhar. cada manobra alimenta o combo e o cerco. o truque é
+        saber quando parar de se exibir.
+      </div>
+      <div style="text-align:center"><a href="#" class="wishlist"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:-2px;margin-right:8px"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658a3.387 3.387 0 0 1 1.912-.59c.064 0 .127.003.19.008l2.862-4.146V8.87a4.528 4.528 0 0 1 4.524-4.524 4.528 4.528 0 0 1 4.524 4.524 4.528 4.528 0 0 1-4.524 4.524h-.105l-4.08 2.911c0 .052.004.105.004.159a3.392 3.392 0 0 1-3.39 3.39 3.406 3.406 0 0 1-3.323-2.727L.436 14.468C1.862 19.752 6.478 24 11.979 24c6.627 0 12-5.373 12-12S18.606 0 11.979 0z"/></svg>WISHLIST NA STEAM</a>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="https://x.com/cotingagames">x</a>
+      <span class="sep">/</span>
+      <a href="https://www.tiktok.com/@cotingagames">tiktok</a>
+      <span class="sep">/</span>
+      <a href="mailto:hello@cotinga.games">contato</a>
+    </div>
+  </div>
+</body>
+</html>
