@@ -30,7 +30,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
 
   body {
     background: var(--void);
@@ -304,12 +304,17 @@
   /* === responsive === */
   @media (max-width: 520px) {
     .card {
-      padding: 40px 28px 36px;
+      padding: 40px 20px 36px;
       transform: rotate(0deg);
+      overflow: hidden;
     }
     @keyframes surface {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    .game-video {
+      width: calc(100% + 40px);
+      margin-left: -20px;
     }
     .game-title {
       font-size: 20px;
